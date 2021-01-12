@@ -19,6 +19,7 @@ class Generator:
         standard_deviation = int(input("Odchylenie standardowe: "))
         self.number_of_pages= number_of_pages
         self.mean_duration = mean_duration
+        #5/CyLQNAve0YQhMuexWN5EarH6XWI/aFwJ7MPX17tz0=
         self.standard_deviation = standard_deviation
 
 

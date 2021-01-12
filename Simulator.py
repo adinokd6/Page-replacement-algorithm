@@ -195,6 +195,7 @@ class Simulator:
                 print("+-----+")
 
             print(" ")
+            #5/CyLQNAve0YQhMuexWN5EarH6XWI/aFwJ7MPX17tz0=
 
         print("Miss: " + str(miss) + " Hits: " + str(hit))
 
