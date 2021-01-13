@@ -21,6 +21,7 @@ class Generator:
         self.mean_duration = mean_duration
         #5/CyLQNAve0YQhMuexWN5EarH6XWI/aFwJ7MPX17tz0=
         self.standard_deviation = standard_deviation
+        self.random_duration()
 
 
     def read(self):
@@ -42,7 +43,7 @@ class Generator:
 
     def write(self):
         counter = 0
-        with open("Generated processes", 'w') as f:
+        with open("Generated pages", 'w') as f:
             while counter < len(self.list_of_pages):
                 f.write(str(self.list_of_pages[counter].return_page_number()))
                 f.write("\n")
@@ -57,20 +58,15 @@ class Generator:
         tmp_arr = arr.tolist()
         var = 0
         tmp=[]
-        for i in range(self.number_of_processes):
+        for i in range(self.number_of_pages):
             while var <= 0:
                 var = random.choice(tmp_arr)
             tmp.append(var)
             var = 0
 
-        self.list_of_pages = tmp
+        for i in range(self.number_of_pages):
+            self.list_of_pages.append(Page(tmp[i]))
         self.write()
-
-    def generate_processes(self):
-        tmp = []
-        for i in range(self.number_of_processes):
-            tmp_id = i + 1
-            tmp.append(self.new_Process(tmp_id, self.get_arrival_time(), self.get_duration()))
 
 
 

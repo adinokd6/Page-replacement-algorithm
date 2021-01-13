@@ -143,6 +143,16 @@ class Simulator:
             for i in range(len(self.page_frames)):
                 self.page_frames[i].add_wait_time()
 
+
+            # for i in range(len(self.page_frames)):
+            #     with open("Sorted pages", 'a') as f:
+            #         f.write("+-----+\n")
+            #         f.write("|  " + str(self.page_frames[i].return_page_number()) + "  |\n")
+            #         f.write("+-----+\n")
+            #
+            # with open("Sorted pages", 'a') as f:
+            #     f.write("\nFaults: " + str(fault)+"\n")
+
             for i in range(len(self.page_frames)):
                 print("+-----+")
                 print("|  "+str(self.page_frames[i].return_page_number())+"  |")
@@ -162,7 +172,7 @@ class Simulator:
         while counter <= len(self.list_of_pages):
             if len(self.page_frames) < self.number_of_frames:
                 if (self.list_of_pages[counter - 1].return_page_number() in xd):
-                    hit = hit + 1
+                    continue
                 else:
                     self.page_frames.append(self.list_of_pages[counter - 1])
                     xd.add(self.list_of_pages[counter - 1].return_page_number())
@@ -173,7 +183,7 @@ class Simulator:
                     for i in range(len(self.page_frames)):
                         if self.list_of_pages[counter - 1].return_page_number()==self.page_frames[i].return_page_number():
                             self.page_frames[i].delete_wait_time()
-                        hit = hit + 1
+                            hit = hit + 1
                 else:
                     tmp = sorted(self.page_frames, key=lambda t: t.return_wait_time(), reverse=True)
                     for i in range(self.number_of_frames):
@@ -188,6 +198,15 @@ class Simulator:
 
             for i in range(len(self.page_frames)):
                 self.page_frames[i].add_wait_time()
+
+            # for i in range(len(self.page_frames)):
+            #     with open("Sorted pages", 'a') as f:
+            #         f.write("+-----+\n")
+            #         f.write("|  " + str(self.page_frames[i].return_page_number()) + "  |\n")
+            #         f.write("+-----+\n")
+            #
+            # with open("Sorted pages", 'a') as f:
+            #     f.write("\nMiss: " + str(miss) + " Hits: " + str(hit)+"\n")
 
             for i in range(len(self.page_frames)):
                 print("+-----+")
