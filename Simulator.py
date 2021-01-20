@@ -40,7 +40,6 @@ class Simulator:
             else:
                     tmp=self.list_of_pages[counter-1].return_page_number()
                     if(tmp in xd ):
-                        print("Secik: ",xd)
                         print("Strona z hitem: " + str(self.list_of_pages[counter-1].return_page_number()))
                         print("Licznik: "+str(counter))
                         print("\n")
@@ -66,8 +65,21 @@ class Simulator:
                 print("|  "+str(self.page_frames[i].return_page_number())+"  |")
                 print("+-----+")
 
+            for i in range(len(self.page_frames)):
+                with open("FIFO sorted", 'a') as f:
+                    f.write("\n+-----+\n")
+                    f.write("|  " + str(self.page_frames[i].return_page_number()) + "  |\n")
+                    f.write("+-----+")
+            with open("FIFO sorted", 'a') as f:
+                f.write("\n********************************************")
+
+
+
+
 
         print("Miss: "+str(miss)+" Hits: "+str(hit))
+        with open("FIFO sorted", 'a') as f:
+            f.write("\nMiss: " + str(miss) +" Hits: "+str(hit)+"\n")
 
     def lfu(self):
 
@@ -103,13 +115,17 @@ class Simulator:
                         tmp_frequencies.append(self.page_frames[i].return_frequency())
 
                     tmp_frequencies.sort()
+                    print("OOOO: "+str(len(tmp_frequencies)))
 
-                    for i in range(1,len(self.page_frames)-1):
-                        if tmp_frequencies[0]==tmp_frequencies[i]:
-                            continue
-                        else:
-                            print("Pokaz: " + str(tmp_frequencies[i]))
-                            tmp_frequencies.pop(i)
+                    tmp_frequencies=self.check(tmp_frequencies)
+                    # for i in range(1,len(self.page_frames)-1):
+                    #     if tmp_frequencies[0]==tmp_frequencies[i]:
+                    #         i+=1
+                    #         continue
+                    #     else:
+                    #         print("Pokaz: " + str(tmp_frequencies[i]))
+                    #         tmp_frequencies.pop(i)
+                    #         i+=1
 
                     tmp_list_of_index=[]
                     print("EEEEEE: "+str(tmp_frequencies[0]))
@@ -144,14 +160,14 @@ class Simulator:
                 self.page_frames[i].add_wait_time()
 
 
-            # for i in range(len(self.page_frames)):
-            #     with open("Sorted pages", 'a') as f:
-            #         f.write("+-----+\n")
-            #         f.write("|  " + str(self.page_frames[i].return_page_number()) + "  |\n")
-            #         f.write("+-----+\n")
-            #
-            # with open("Sorted pages", 'a') as f:
-            #     f.write("\nFaults: " + str(fault)+"\n")
+            for i in range(len(self.page_frames)):
+                with open("LFU sorted", 'a') as f:
+                    f.write("\n+-----+\n")
+                    f.write("|  " + str(self.page_frames[i].return_page_number()) + "  |\n")
+                    f.write("+-----+\n")
+
+            with open("LFU sorted", 'a') as f:
+                f.write("\nFaults: " + str(fault)+"\n")
 
             for i in range(len(self.page_frames)):
                 print("+-----+")
@@ -172,7 +188,10 @@ class Simulator:
         while counter <= len(self.list_of_pages):
             if len(self.page_frames) < self.number_of_frames:
                 if (self.list_of_pages[counter - 1].return_page_number() in xd):
-                    continue
+                    for i in range(len(self.page_frames)):
+                        if self.list_of_pages[counter - 1].return_page_number()==self.page_frames[i].return_page_number():
+                            self.page_frames[i].delete_wait_time()
+                            hit = hit + 1
                 else:
                     self.page_frames.append(self.list_of_pages[counter - 1])
                     xd.add(self.list_of_pages[counter - 1].return_page_number())
@@ -199,14 +218,13 @@ class Simulator:
             for i in range(len(self.page_frames)):
                 self.page_frames[i].add_wait_time()
 
-            # for i in range(len(self.page_frames)):
-            #     with open("Sorted pages", 'a') as f:
-            #         f.write("+-----+\n")
-            #         f.write("|  " + str(self.page_frames[i].return_page_number()) + "  |\n")
-            #         f.write("+-----+\n")
-            #
-            # with open("Sorted pages", 'a') as f:
-            #     f.write("\nMiss: " + str(miss) + " Hits: " + str(hit)+"\n")
+            for i in range(len(self.page_frames)):
+                with open("LRU sorted", 'a') as f:
+                    f.write("\n+-----+\n")
+                    f.write("|  " + str(self.page_frames[i].return_page_number()) + "  |\n")
+                    f.write("+-----+\n")
+
+
 
             for i in range(len(self.page_frames)):
                 print("+-----+")
@@ -216,8 +234,28 @@ class Simulator:
             print(" ")
             #5/CyLQNAve0YQhMuexWN5EarH6XWI/aFwJ7MPX17tz0=
 
+        with open("LRU sorted", 'a') as f:
+            f.write("\nMiss: " + str(miss) + " Hits: " + str(hit) + "\n")
+
         print("Miss: " + str(miss) + " Hits: " + str(hit))
 
+
+
+    def check(self,list):
+        tmp=[]
+        tmp.append(list[0])
+        n=len(list)
+        for i in range(1,n-1):
+                if list[0] != list[i]:
+                    print("Pokaz: " + str(list[i]))
+                    continue
+                else:
+                    tmp.append(list[i])
+
+        list=tmp
+
+
+        return list
 
 
 
